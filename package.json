@@ -1,0 +1,13 @@
+{
+  "name": "ricehub",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm install --prefix ricehub-backend && npm install --prefix ricehub-client && npm run build --prefix ricehub-client",
+    "build": "npm start --prefix ricehub-backend"
+  }
+}

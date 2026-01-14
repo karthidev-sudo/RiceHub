@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* We are FORCING Dark Mode values here. 
+       Even if a user's system is light, the app will look Dark/Professional.
+    */
+    --background: 240 10% 3.9%;   /* Deep Zinc #09090b */
+    --foreground: 0 0% 98%;       /* #fafafa */
+
+    --card: 240 10% 3.9%;         /* Match background for flat look */
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 263.4 70% 50.4%;   /* Indigo/Violet #7c3aed */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 240 3.7% 15.9%;  /* Dark Grey for secondary buttons */
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%; /* Muted text #a1a1aa */
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;     /* Subtle borders */
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    /* Ensure the background covers the whole screen instantly */
+    @apply bg-background text-foreground font-sans antialiased min-h-screen selection:bg-primary/30 selection:text-primary-foreground;
+  }
+  
+  /* Modern Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors;
+  }
+}

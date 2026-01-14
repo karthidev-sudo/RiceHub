@@ -1,0 +1,21 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1',
+  withCredentials: true, // IMPORTANT: Allows sending cookies to backend
+});
+
+// Optional: Add an interceptor to handle 401 (Unauthorized) errors globally
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // If 401, it means the token expired or is invalid.
+      // We will handle logout in the UI later.
+      console.log('Session expired');
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;
