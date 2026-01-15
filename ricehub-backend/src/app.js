@@ -17,6 +17,10 @@ const rootDir = path.resolve("..");
 
 const app = express();
 
+app.use("/health", () => {
+  console.log("Server is Alive")
+})
+
 // Middleware
 app.use((req, res, next) => {
   res.setHeader(
