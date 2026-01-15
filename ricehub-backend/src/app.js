@@ -18,7 +18,22 @@ const rootDir = path.resolve("..");
 const app = express();
 
 // Middleware
-app.use(helmet()); // Security headers
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // <--- Fixes the "eval" error
+      "img-src 'self' data: https://res.cloudinary.com https://avatars.githubusercontent.com https://i.ytimg.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", 
+      "img-src 'self' data: https://res.cloudinary.com", 
+      "font-src 'self' https://fonts.gstatic.com", 
+      "connect-src 'self' http://localhost:5000", // <--- Allow both Self (Prod) and Localhost (Dev)
+    ].join("; ")
+  );
+  next();
+});
+
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
