@@ -1,28 +1,35 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  avatar: { type: String, default: 'https://github.com/shadcn.png' },
-  bio: String,
-  savedRices: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Rice' }],
-}, { timestamps: true });
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    avatar: {
+      type: String,
+      default: "https://github.com/shadcn.png",
+    },
+    // Optional fields for your future features
+    distro: { type: String, default: "Linux" },
+    wm: { type: String, default: "Tiling" },
+  },
+  { timestamps: true }
+);
 
-// Pre-save hook to hash password
-userSchema.pre('save', async function () {
-  // If password is not modified, just return (no next needed)
-  if (!this.isModified('password')) return;
-  
-  // Hash the password
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  // No next() call needed in async functions
-});
-// Method to check password
+// 👇 THIS WAS MISSING
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-export default mongoose.model('User', userSchema);
+// Encrypt password before saving
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+const User = mongoose.model("User", userSchema);
+export default User;

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuthStore from "../../store/authStore";
+import useAuthStore from "@/store/authStore";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu"; // npx shadcn@latest add dropdown-menu
+} from "../ui/dropdown-menu";
 import NotificationBell from './NotificationBell';
 
 const Navbar = () => {
@@ -17,20 +17,28 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    // Call backend logout if needed, then clear store
     logout();
     navigate("/login");
   };
 
   return (
-    // Change the outer div className to this:
-<nav className="border-b bg-background/80 backdrop-blur-md sticky top-0 z-50">
+    <nav className="border-b bg-background/80 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link to="/" className="text-2xl font-bold tracking-tight">
           RiceHub 🍙
         </Link>
 
         <div className="flex items-center gap-4">
+          {/* Public Links (Visible to everyone) */}
+          <Link to="/resources">
+             {/* FIX: Use Button, not <a> */}
+            <Button variant="ghost">Resources</Button>
+          </Link>
+          
+          <Link to="/learn">
+             <Button variant="ghost">Glossary</Button>
+          </Link>
+
           {user ? (
             <>
               <Link to="/create">
@@ -50,8 +58,9 @@ const Navbar = () => {
                         src={user.avatar || "https://github.com/shadcn.png"}
                         alt={user.username}
                       />
+                      {/* Safe check to prevent crash if username is missing */}
                       <AvatarFallback>
-                        {user.username?.substring(0, 2).toUpperCase()}
+                        {user.username ? user.username.substring(0, 2).toUpperCase() : "U"}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -69,7 +78,6 @@ const Navbar = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
 
-                  {/* Add this Item */}
                   <Link to={`/profile/${user.username}`}>
                     <DropdownMenuItem className="cursor-pointer">
                       Profile

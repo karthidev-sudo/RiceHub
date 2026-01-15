@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"; // Ensure you have input component
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react"; // npm install lucide-react if missing
+import ExternalInspiration from "@/components/home/ExternalInspiration";
 
 const Home = () => {
   const [rices, setRices] = useState([]);
@@ -133,6 +134,7 @@ const Home = () => {
           ))}
         </div>
       )}
+      <ExternalInspiration/>
     </div>
   );
 };

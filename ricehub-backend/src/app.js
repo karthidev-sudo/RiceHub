@@ -11,6 +11,7 @@ import riceRoutes from "./routes/riceRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import externalRoutes from './routes/externalRoutes.js';
 
 const rootDir = path.resolve("..");
 
@@ -34,6 +35,7 @@ app.use("/api/v1/rices", riceRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
+app.use('/api/v1/external', externalRoutes);
 
 // Global Error Handler
 app.use((error, req, res, next) => {

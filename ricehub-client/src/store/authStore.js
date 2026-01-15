@@ -3,31 +3,40 @@ import api from "@/lib/api";
 
 const useAuthStore = create((set) => ({
   user: null,
-  isCheckingAuth: true, // Used to show a loading spinner if needed
+  isCheckingAuth: true,
 
-  // 1. SIGNUP
   signup: async (userData) => {
     try {
       const { data } = await api.post("/auth/register", userData);
-      set({ user: data });
+      set({ user: data.user });
       return { success: true };
     } catch (error) {
       return { success: false, message: error.response?.data?.message || "Signup failed" };
     }
   },
 
-  // 2. LOGIN
   login: async (credentials) => {
     try {
       const { data } = await api.post("/auth/login", credentials);
-      set({ user: data });
+      
+
+      // Check different structures to ensure we catch the user object
+      if (data.user) {
+        set({ user: data.user });
+      } else if (data.username) {
+        set({ user: data });
+      } else {
+        console.error("❌ ERROR: User data is missing in response!", data);
+        set({ user: null });
+      }
+
       return { success: true };
     } catch (error) {
+      console.error("Login Error:", error);
       return { success: false, message: error.response?.data?.message || "Login failed" };
     }
   },
 
-  // 3. LOGOUT
   logout: async () => {
     try {
       await api.post("/auth/logout");
@@ -37,15 +46,13 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // 4. CHECK AUTH (This was missing!)
   checkAuth: async () => {
     set({ isCheckingAuth: true });
     try {
-      // We will create this endpoint in the backend next
-      const { data } = await api.get("/auth/check"); 
+      const { data } = await api.get("/auth/check");
       set({ user: data });
     } catch (error) {
-      set({ user: null }); // Not logged in
+      set({ user: null });
     } finally {
       set({ isCheckingAuth: false });
     }

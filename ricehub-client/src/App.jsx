@@ -13,6 +13,8 @@ import Register from "./pages/Register";
 import CreateRice from "./pages/CreateRice";
 import RiceDetail from "./pages/RiceDetails";
 import Profile from "./pages/Profile";
+import Resources from "./pages/Resources";
+import Glossary from "./pages/Glossary";
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -29,6 +31,8 @@ const App = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/learn" element={<Glossary />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
