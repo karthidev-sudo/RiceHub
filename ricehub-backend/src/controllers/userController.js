@@ -78,14 +78,14 @@ export const toggleSaveRice = catchAsync(async (req, res) => {
   const user = await User.findById(req.user._id);
   const { riceId } = req.body;
 
-  // Check if already saved
-  const isSaved = user.savedRices.includes(riceId);
+  // FIX: Use .some() and .toString() for accurate comparison
+  const isSaved = user.savedRices.some(id => id.toString() === riceId);
 
   if (isSaved) {
-    // Unsave
+    // Unsave: Filter out the ID
     user.savedRices = user.savedRices.filter(id => id.toString() !== riceId);
   } else {
-    // Save
+    // Save: Push the new ID
     user.savedRices.push(riceId);
   }
 

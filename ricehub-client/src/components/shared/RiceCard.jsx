@@ -9,7 +9,7 @@ const RiceCard = ({ rice }) => {
       <Link to={`/rice/${rice._id}`} className="block overflow-hidden">
         <div className="aspect-video w-full overflow-hidden bg-muted">
           <img
-            src={rice.image}
+            src={rice.imageUrl}
             alt={rice.title}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
